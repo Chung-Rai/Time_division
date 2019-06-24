@@ -1,0 +1,73 @@
+<html>
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+  <title>Webduino Blockly App</title>
+  <script src="https://blocklypro.webduino.io/components/jquery/dist/jquery.min.js"></script>
+  <script src="https://blocklypro.webduino.io/dist/lib/webduino-all-0.4.20.min.js"></script>
+  <script src="https://blocklypro.webduino.io/dist/webduino-blockly.min.js"></script>
+  <script src="https://blocklypro.webduino.io/dist/lib/firebase.min.js"></script>
+  <script src="https://blocklypro.webduino.io/dist/lib/runtime.min.js"></script>
+
+  <script type="text/javascript" scr="http://localhost/SQL.php"></script>
+
+
+</head>
+<body>
+	<div id ="output"></div>
+	<p id='print'></p>
+	<script type="text/javascript">
+
+		
+	var pin =[];
+	boardReady({device: 'nXkG8'}, function (board) {
+	board.samplingInterval = 20;
+	  pin[0] = getPin(board, 2);
+	  pin[1] = getPin(board, 3);
+	  pin[2] = getPin(board, 4);
+	  pin[3] = getPin(board, 5);
+	  pin[4] = getPin(board, 6);
+	  pin[5] = getPin(board, 7);
+	  pin[6] = getPin(board, 8);
+	  pin[7] = getPin(board, 9);
+	  pin[8] = getPin(board, 10);
+	  pin[9] = getPin(board, 11);
+	  pin[10] = getPin(board, 12);
+	  pin[11] = getPin(board, 13);
+	
+	setInterval(function()
+	{
+		$(document).ready(function(){
+				$.post('SQL.php',function(txt){
+					$('#output').html(txt);
+				});
+		});
+
+		var url_id=$('#output').text();
+	 	
+	 
+		document.getElementById('print').innerHTML=url_id
+
+		var number = [].slice.call(url_id);
+
+		for(var x =0 ; x<url_id.length ; x++){
+
+			if(number[x] ==1)
+			{
+				pin[x].write(1);
+			}
+		
+			else if(number[x] == 0)
+			{
+				pin[x].write(0);
+			}
+
+		}
+
+	},500);
+	
+	});
+
+</script>
+</body>
+</html>
